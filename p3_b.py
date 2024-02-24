@@ -20,9 +20,11 @@ ValueError: shapes (4,) and (3,4) not aligned: 4 (dim 0) != 3 (dim 0)
 A = m x n
 B = p x q
 
-n tiene que ser igual a p
+n tiene que ser mayor o igual a p (calcula el broadcasting)
+
+a*b no es igual q el producto de matrices => elemento a elemento
 """
 
-layer_output= np.dot(weights, inputs)+biases
+layer_output= np.dot(weights,inputs)+biases
 
 print(layer_output)

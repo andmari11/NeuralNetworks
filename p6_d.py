@@ -30,20 +30,35 @@ class LayerDense:
     def forward(self, inputs):
         self.output = np.dot(inputs, self.weights)+self.biases
 
-#funcion de activacion
+#activaction function
 class ActivationReLu:
     def forward(self, inputs):
         self.output = np.maximum(0, inputs)
 
+#softmax
+class Activation_Softmax:
+    def forward(self, inputs):
+        exp_values= np.exp(inputs-np.max(inputs,axis=1, keepdims=True))
+        norm_values= exp_values/np.sum(exp_values,axis=1, keepdims=True)
+        self.output=norm_values
+
+X,y=createData(100, 3)
 
 #inputs(coordenadas), neuronas
-layer1 = LayerDense(2,3)
-#X*weight+bias
-layer1.forward(X)
-
-#activamos funcion
+dense1=LayerDense(2,3)
 activation1=ActivationReLu()
-activation1.forward(layer1.output)
 
-print(activation1.output)
+dense2=LayerDense(3,3)
+activation2=Activation_Softmax()
 
+#procesan las neuronas
+dense1.forward(X)
+#relu
+activation1.forward(dense1.output)
+#procesan las neuronas(ahora son 3 inputs ya que antes son 3 neuronas)
+dense2.forward(activation1.output)
+#softmax
+activation2.forward(dense2.output)
+
+print(activation1.output[:3])
+print(activation2.output[:3])
